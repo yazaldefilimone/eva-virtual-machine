@@ -1,0 +1,1 @@
+clang++  -std=c++17 -Wall -ggdb3 ./src/eva-vm.cpp -o ./eva-vm 
