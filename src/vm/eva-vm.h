@@ -2,6 +2,8 @@
 #ifndef EvaVirtualMachine_h
 #define EvaVirtualMachine_h
 #include "../beytecode/operation-code.h"
+#include "../logger.h"
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -14,23 +16,25 @@ public:
 
   void exec(const std::string &program) {
     //
-    code = {OPERATION_HALT};
+    code = {1};
     ip = &code[0];
     return eval();
   }
 
   void eval() {
     for (;;) {
-      switch (read_byte()) {
+      auto operationCode = read_byte();
+      switch (operationCode) {
       case OPERATION_HALT:
         return;
+      default:
+        DIE << "Unknown operation code: " << std::hex << operationCode;
       }
     }
   }
 
   //  Instruction pointer (aka program counter)
   u_int8_t *ip;
-
   std::vector<u_int8_t> code;
 };
 
